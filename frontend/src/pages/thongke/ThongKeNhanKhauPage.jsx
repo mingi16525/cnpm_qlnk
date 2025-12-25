@@ -9,6 +9,11 @@ import {
     HomeOutlined, LogoutOutlined
 } from '@ant-design/icons';
 import thongKeApi from '../../api/thongKeApi';
+import dayjs from 'dayjs';
+
+const { RangePicker } = DatePicker;
+const { Option } = Select;
+
 const ThongKeNhanKhauPage = () => {
     const [loading, setLoading] = useState(false);
     const [thongKeData, setThongKeData] = useState(null);
@@ -20,21 +25,11 @@ const ThongKeNhanKhauPage = () => {
     const fetchThongKe = async (tuNgay = null, denNgay = null) => {
         setLoading(true);
         try {
-            let url = '/thongke/nhankhau';
-            const params = [];
-            
-            if (tuNgay) {
-                params.push(`tuNgay=${tuNgay}`);
-            }
-            if (denNgay) {
-                params.push(`denNgay=${denNgay}`);
-            }
-            
-            if (params.length > 0) {
-                url += '?' + params.join('&');
-            }
-            
-            const response = await thongKeApi.getNhanKhau(tuNgay, denNgay);
+            l            // Chỉ truyền parameters nếu có giá trị thực
+            const response = await thongKeApi.getNhanKhau(
+                tuNgay && tuNgay !== 'null' ? tuNgay : null,
+                denNgay && denNgay !== 'null' ? denNgay : null
+            );
             console.log('📊 Thống kê:', response.data);
             setThongKeData(response.data);
         } catch (error) {
